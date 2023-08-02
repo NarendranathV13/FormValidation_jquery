@@ -1,1 +1,6 @@
-input
+.form-val.error input {
+  border-color: rgb(247, 37, 37);
+}
+.form-val.success input {
+  border-color: rgb(57, 226, 31);
+}
