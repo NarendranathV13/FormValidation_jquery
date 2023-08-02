@@ -4,3 +4,27 @@
 .form-val.success input {
   border-color: rgb(57, 226, 31);
 }
+.form-val.error select{
+  border-color: rgb(247, 37, 37);
+}
+.form-val.success select{
+  border-color: rgb(57, 226, 31);
+}
+.form-val.error textarea{
+  border-color: rgb(247, 37, 37);
+}
+.form-val.success textarea{
+  border-color: rgb(57, 226, 31);
+}
+.form-val.error label[for="gridCheck"]{
+  color: rgb(247, 37, 37);
+}
+.form-val.success label[for="gridCheck"]{
+  color: rgb(0, 0, 0);
+}
+.form-val.success label[for="inlineRadio1"]{
+  color: rgb(0, 0, 0);
+}
+.form-val.error label[for="inlineRadio1"]{
+  color: rgb(247, 37, 37);
+}

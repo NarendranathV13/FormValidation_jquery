@@ -41,19 +41,16 @@
                     <p id="emailCheck" style="color:rgb(197, 34, 34)">Please Enter the email</p>
                 </div>
             </div>
-                <div class="col-lg-4 p-3">
-                    <label for="gender" class="form-label px-sm-1">Gender</label><br>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input shadow-lg " required type="radio" name="inlineRadioOptions"
-                            id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">Male</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input shadow-lg " required type="radio" name="inlineRadioOptions"
-                            id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Female</label>
-                    </div>
+            <div class="col-lg-4 p-3">
+                <div class="form-val">
+                    <label for="gender" class="px-sm-1">Gender</label><br>
+                    <input class="shadow-lg genderRadio" type="radio" name="gender" id="inlineRadio1" value="male">
+                    <label class="gend" for="inlineRadio1">Male</label>
+                    <input class="shadow-lg genderRadio" type="radio" name="gender" id="inlineRadio2" value="female">
+                    <label class="gend" for="inlineRadio1">Female</label>
+                    <p id="genderCheck" style="color:rgb(197, 34, 34)">Please select your gender</p>
                 </div>
+            </div>    
                 <div class="col-md-4">
                     <div class="form-val">
                     <label for="Qualification" class="form-label">Qualification</label>
@@ -121,12 +118,15 @@
                   <div class="col-12 d-flex justify-content-center">
                     <div class="col-lg-12 d-flex justify-content-center prof">
                       <div class="resu">
-                        <label id="resume" title="Please Upload Profile">Upload Your Resume<br><input type="file" class="profile1"></label>
+                        <label class="d-flex justify-content-center" id="resume" title="Please Upload Profile">Upload Your Resume<br></label>
+                            <input type="file" class="d-flex justify-content-center" id="fileInput" accept=".doc, .docx, .pdf">
+                            <p id="fileCheck" style="color:rgb(197, 34, 34)">Please upload a DOC or PDF file.</p>
                       </div>
                     </div>
                   </div>
-                <div class="col-12 d-flex justify-content-center">
+                  <div class="col-12 d-flex justify-content-center">
                     <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" id="clear" class="btn btn-warning ms-2">Clear</button>
                   </div>
         </div>
         </form>

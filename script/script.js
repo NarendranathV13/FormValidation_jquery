@@ -1,4 +1,17 @@
 $(document).ready(function () {
+  var cities = [
+    "Coimbatore",
+    "Madurai",
+    "Chennai",
+    "Salem",
+    "Erode",
+    "Tiruppur",
+    "Pollachi",
+    "Udumalpet",
+  ];
+  $("#inputCity").autocomplete({
+    source: cities,
+  });
   $("#datepick").datepicker({
     minDate: new Date(2018, 3, 1), // from 2018
     maxDate: new Date(2023, 3, 30), // to 2023
@@ -12,32 +25,69 @@ $(document).ready(function () {
   $("#pinCheck").hide();
   $("#fnameCheck").hide();
   $("#lnameCheck").hide();
-  let fnameError = true;
-  let pinError = true;
-  let LnameError = true;
-  let qualError = true;
-  let emailError = true;
-  let stateError = true;
-  let yopError = true;
+  $("#emailCheck").hide();
+  $("#genderCheck").hide();
+  $("#fileCheck").hide();
+  const Fname = $("#Fname");
+  const Lname = $("#Lname");
+  const inputEmail = $("#inputEmail");
+  const qualifications = $("#qualification");
+  const datepick = $("#datepick");
+  const inputAddress = $("#inputAddress");
+  const inputCity = $("#inputCity");
+  const exampleSelect = $("#exampleSelect");
+  const inputZip = $("#inputZip");
+  const decleration = $("#exampleFormControlTextarea1");
+  const checkbox1 = $("#gridCheck");
+  const radios = $(".genderRadio");
+  const files = $("#fileInput");
   $("#Fname").keydown(function () {
     validateUsername();
   });
-  //pin
   $("#qualification").keydown(function () {
     qualification();
   });
   $("#inputZip").keyup(function () {
     validatepin();
   });
-  // LASTNAME
   $("#Lname").keyup(function () {
     validateUsernameL();
   });
-  // EMAIL
-  $("#emailCheck").hide();
-
   $("#inputEmail").keyup(function () {
     validateEmail();
+  });
+  $("#exampleSelect").change(function () {
+    validateState();
+  });
+  $("#datepick").change(function () {
+    validateYOP();
+  });
+  const values = [
+    Fname,
+    Lname,
+    inputEmail,
+    qualifications,
+    datepick,
+    inputAddress,
+    inputCity,
+    exampleSelect,
+    inputZip,
+    decleration,
+    checkbox1,
+    radios,
+    files,
+  ];
+  function clearFormFields(values) {
+    values.forEach((inp) => {
+      inp.val("");
+      let fieldColor = inp.parent();
+      fieldColor.removeClass("form-val success");
+      fieldColor.removeClass("form-val error");
+      inp.siblings("p").hide();
+    });
+  }
+  $("#clear").click(function () {
+    clearFormFields(values);
   });
   function qualification() {
     var regex = /^[a-zA-Z]{1,20}$/;
@@ -46,21 +96,18 @@ $(document).ready(function () {
     if (qualValue.length == "") {
       parentClass.removeClass("form-val success");
       $("#qualCheck").show();
-      qualError = false;
       parentClass.addClass("form-val error");
       return false;
     } else if (qualValue.length < 2 || qualValue.length > 10) {
       parentClass.removeClass("form-val success");
       $("#qualCheck").show();
       $("#qualCheck").html("length of course must be between 2 and 10");
-      qualError = false;
       parentClass.addClass("form-val error");
       return false;
     } else if (!regex.test(qualValue)) {
       parentClass.removeClass("form-val success");
       $("#qualCheck").show();
       $("#qualCheck").html("Course must contain alphabets only");
-      qualError = false;
       parentClass.addClass("form-val error");
       return false;
     } else {
@@ -70,27 +117,24 @@ $(document).ready(function () {
     }
   }
   function validatepin() {
-    var regexPostalCode = /^[1-9][0-9]{5}$/;
+    var regexPostalCode = /^[1-9][0-9]{4,5}$/;
     let pinValue = $("#inputZip").val();
     let parentClass = $("#inputZip").parent();
     if (pinValue.length == "") {
       parentClass.removeClass("form-val success");
       $("#pinCheck").show();
-      pinError = false;
       parentClass.addClass("form-val error");
       return false;
-    } else if (pinValue.length !== 6) {
+    } else if (pinValue.length < 5 || pinValue.length > 6) {
       parentClass.removeClass("form-val success");
       $("#pinCheck").show();
-      $("#pinCheck").html("pin must be 6 digits");
-      pinError = false;
+      $("#pinCheck").html("pin must be 5 digits to 6 digits");
       parentClass.addClass("form-val error");
       return false;
     } else if (!regexPostalCode.test(pinValue)) {
       parentClass.removeClass("form-val success");
       $("#pinCheck").show();
       $("#pinCheck").html("Invalid pin");
-      pinError = false;
       parentClass.addClass("form-val error");
       return false;
     } else {
@@ -106,21 +150,18 @@ $(document).ready(function () {
     if (usernameValue.length == "") {
       parentClass.removeClass("form-val success");
       $("#fnameCheck").show();
-      fnameError = false;
       parentClass.addClass("form-val error");
       return false;
     } else if (usernameValue.length < 3 || usernameValue.length > 10) {
       parentClass.removeClass("form-val success");
       $("#fnameCheck").show();
       $("#fnameCheck").html("length of username must be between 3 and 10");
-      fnameError = false;
       parentClass.addClass("form-val error");
       return false;
     } else if (!regex.test(usernameValue)) {
       parentClass.removeClass("form-val success");
       $("#fnameCheck").show();
       $("#fnameCheck").html("Name must contain alphabets");
-      fnameError = false;
       parentClass.addClass("form-val error");
       return false;
     } else {
@@ -132,115 +173,175 @@ $(document).ready(function () {
   function validateUsernameL() {
     var regex = /^[a-zA-Z]{1,20}$/;
     let usernameValue = $("#Lname").val();
+    let parentClass = $("#Lname").parent();
     if (usernameValue.length == "") {
+      parentClass.removeClass("form-val success");
       $("#lnameCheck").show();
-      LnameError = false;
+      parentClass.addClass("form-val error");
       return false;
     } else if (!regex.test(usernameValue)) {
+      parentClass.removeClass("form-val success");
       $("#lnameCheck").show();
       $("#lnameCheck").html("Name must contain alphabets");
-      LnameError = false;
+      parentClass.addClass("form-val error");
+      return false;
     } else if (usernameValue.length < 3 || usernameValue.length > 10) {
+      parentClass.removeClass("form-val success");
       $("#lnameCheck").show();
       $("#lnameCheck").html("length of username must be between 3 and 10");
-      LnameError = false;
+      parentClass.addClass("form-val error");
       return false;
     } else {
+      parentClass.removeClass("form-val error");
       $("#lnameCheck").hide();
+      parentClass.addClass("form-val success");
     }
   }
   function validateYOP() {
     let yopValue = $("#datepick").val();
+    let parentClass = $("#datepick").parent();
     if (yopValue === "") {
+      parentClass.removeClass("form-val success");
       $("#yopCheck").show();
-      yopError = false;
+      parentClass.addClass("form-val error");
       return false;
     } else {
+      parentClass.removeClass("form-val error");
       $("#yopCheck").hide();
+      parentClass.addClass("form-val success");
       return true;
     }
   }
   function validateState() {
     let selectedState = $("#exampleSelect").val();
+    let parentClass = $("#exampleSelect").parent();
     if (!selectedState) {
-      // Check if selectedState is null or empty
+      parentClass.removeClass("form-val success");
       $("#stateCheck").show();
-      stateError = false;
+      parentClass.addClass("form-val error");
       return false;
     } else {
+      parentClass.removeClass("form-val error");
       $("#stateCheck").hide();
+      parentClass.addClass("form-val success");
       return true;
     }
   }
-  const add = $("#inputAddress");
-  const cty = $("#inputCity");
-  const state = $("#exampleDataList");
-  const msg = $("#exampleFormControlTextarea1");
-  const yop = $("#YOP");
-  const arry = [add, cty, state, msg, yop];
-  // field validations
+  const arr = [inputAddress, inputCity, decleration];
   function fieldEmpty(arr) {
     let count = 0;
     arr.forEach((input) => {
       var elemValue = $(input).val();
+      let parentClass = $(input).parent();
       if (elemValue === "") {
+        parentClass.removeClass("form-val success");
         $(input).next().show();
+        parentClass.addClass("form-val error");
         count += 1;
       } else {
+        parentClass.removeClass("form-val error");
         $(input).next().hide();
+        parentClass.addClass("form-val success");
       }
     });
-    return count;
+    if (count == 3) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  function validateRadio() {
+    let parentClass = $(".genderRadio").parent();
+    let radioChecked = $(".genderRadio").is(":checked");
+    if (!radioChecked) {
+      parentClass.addClass("form-val error");
+      $("#genderCheck").show();
+      return false;
+    } else {
+      parentClass.removeClass("form-val error");
+      parentClass.addClass("form-val success");
+      $("#genderCheck").hide();
+      return true;
+    }
+  }
+  function checkbox() {
+    let parentClass = $("#gridCheck").parent();
+    if ($("#gridCheck").prop("checked")) {
+      parentClass.addClass("form-val success");
+      return true;
+    } else {
+      parentClass.removeClass("form-val success");
+      parentClass.addClass("form-val error");
+      return false;
+    }
   }
   function validateEmail() {
     let regexEmail =
       /^([_\-\.0-9a-zA-Z]+)@([_\-\.0-9a-zA-Z]+)\.([a-zA-Z]){2,7}$/;
     var emailValue = $("#inputEmail").val();
+    let parentClass = $("#inputEmail").parent();
     if (emailValue === "") {
+      parentClass.removeClass("form-val success");
       $("#emailCheck").show();
       $("#emailCheck").html("Please enter the email");
+      parentClass.addClass("form-val error");
       return false;
     }
     if (!regexEmail.test(emailValue)) {
+      parentClass.removeClass("form-val success");
       $("#emailCheck").show();
       $("#emailCheck").html("Enter the valid email.");
+      parentClass.addClass("form-val error");
       return false;
     } else {
+      parentClass.removeClass("form-val error");
       $("#emailCheck").hide();
+      parentClass.addClass("form-val success");
     }
   }
-  $("form").on("submit", function (event) {
-    // Check if an option is selected in the datalist
-    if (!$("#exampleDataList").val()) {
-      event.preventDefault(); // Prevent form submission
-      $("#stateCheck").show();
-    } else {
-      $("#stateCheck").hide();
-    }
-  });
-  // Submit button
-  $("#submit").click(function () {
-    console.log("hiii");
-    validateUsername();
-    validateUsernameL();
-    validateEmail();
-    validatepin();
-    validateState();
-    qualification();
-    validateYOP();
-    let count = fieldEmpty(arry);
+  function validateFile() {
+    const fileInput = $("#fileInput");
+    // Get the file name and split it by the dot to get the file extension
+    const fileName = fileInput.val();
+    const fileExtension = fileName.split(".").pop().toLowerCase();
     if (
-      fnameError == true &&
-      emailError == true &&
-      LnameError == true &&
-      pinError == true &&
-      qualError == true &&
-      yopError == true &&
-      stateError == true &&
-      count == 6
+      fileExtension !== "doc" &&
+      fileExtension !== "docx" &&
+      fileExtension !== "pdf"
     ) {
-      return true;
+      $("#fileCheck").show();
+      return false;
     } else {
+      $("#fileCheck").hide();
+      return true;
+    }
+  }
+  $("#submit").click(function (event) {
+    event.preventDefault();
+    const isFnameValid = validateUsername();
+    const isLnameValid = validateUsernameL();
+    const isEmailValid = validateEmail();
+    const isPinValid = validatepin();
+    const isStateValid = validateState();
+    const isQualificationValid = qualification();
+    const isYopValid = validateYOP();
+    const isCheckboxChecked = checkbox();
+    const isFieldsEmpty = fieldEmpty(arr);
+    const isGenderValid = validateRadio();
+    const isFileValid = validateFile();
+    if (
+      !isFnameValid ||
+      !isLnameValid ||
+      !isEmailValid ||
+      !isPinValid ||
+      !isStateValid ||
+      !isQualificationValid ||
+      !isYopValid ||
+      !isFileValid ||
+      !isCheckboxChecked ||
+      !isFieldsEmpty ||
+      !isGenderValid
+    ) {
       return false;
     }
   });
