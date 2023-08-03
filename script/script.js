@@ -57,25 +57,27 @@ $(document).ready(function () {
   const checkbox1 = $("#gridCheck");
   const radios = $(".genderRadio");
   const files = $("#fileInput");
+  const pinReg=/^[1-9][0-9]{4,5}$/;
+  const emailReg=/^([_\-\.0-9a-zA-Z]+)@([_\-\.0-9a-zA-Z]+)\.([a-zA-Z]){2,7}$/;
   function rmvErr(err,prnt){
     err.hide();
     prnt.parent().removeClass("form-val error")
     prnt.parent().addClass("form-val success")
   }
   Fname.keyup(function () {
-    validateUsername();
+    validateUsername(Fname);
   });
   qualifications.keydown(function () {
     rmvErr($("#qualCheck"),qualifications);
   });
   inputZip.keyup(function () {
-    validatepin();
+    validateReg(pinReg,inputZip);
   });
   Lname.keyup(function () {
-    validateUsernameL();
+    validateUsername(Lname);
   });
   inputEmail.keyup(function () {
-    validateEmail();
+    validateReg(emailReg,inputEmail);
   });
   stateSelect.change(function () {
     rmvErr($("#stateCheck"),stateSelect);
@@ -133,86 +135,52 @@ $(document).ready(function () {
   $("#clear").click(function () {
     clearFormFields(values);
   });
-  function validatepin() {
-    var regexPostalCode = /^[1-9][0-9]{4,5}$/;
-    let pinValue = $("#inputZip").val();
-    let parentClass = $("#inputZip").parent();
+  function validateReg(regx,inpID) {
+    var regexPostalCode = regx;
+    let pinValue = inpID.val();
+    let parentClass = inpID.parent();
     if (pinValue.length == "") {
       parentClass.removeClass("form-val success");
-      $("#pinCheck").show();
+      inpID.next().show();
       parentClass.addClass("form-val error");
       return false;
-    } else if (pinValue.length < 5 || pinValue.length > 6) {
+    }else if (!regexPostalCode.test(pinValue)) {
       parentClass.removeClass("form-val success");
-      $("#pinCheck").show();
-      $("#pinCheck").html("pin must be 5 digits to 6 digits");
-      parentClass.addClass("form-val error");
-      return false;
-    } else if (!regexPostalCode.test(pinValue)) {
-      parentClass.removeClass("form-val success");
-      $("#pinCheck").show();
-      $("#pinCheck").html("Invalid pin");
+      inpID.next().show();
+      inpID.next().html("Invalid entry");
       parentClass.addClass("form-val error");
       return false;
     } else {
       parentClass.removeClass("form-val error");
-      $("#pinCheck").hide();
+      inpID.next().hide();
       parentClass.addClass("form-val success");
       return true;
     }
   }
-  function validateUsername() {
+  function validateUsername(inputt) {
     var regex = /^[a-zA-Z]{1,20}$/;
-    let usernameValue = $("#Fname").val();
-    let parentClass = $("#Fname").parent();
+    let usernameValue = inputt.val();
+    let parentClass = inputt.parent();
     if (usernameValue.length == "") {
       parentClass.removeClass("form-val success");
-      $("#fnameCheck").show();
+      inputt.next().show();
       parentClass.addClass("form-val error");
       return false;
-    } else if (usernameValue.length < 3 || usernameValue.length > 20) {
+    } else if (usernameValue.length < 1 || usernameValue.length > 20) {
       parentClass.removeClass("form-val success");
-      $("#fnameCheck").show();
-      $("#fnameCheck").html("length of username must be between 3 and 20");
+      inputt.next().show();
+      inputt.next().html("length of username must be between 1 and 20");
       parentClass.addClass("form-val error");
       return false;
     } else if (!regex.test(usernameValue)) {
       parentClass.removeClass("form-val success");
-      $("#fnameCheck").show();
-      $("#fnameCheck").html("Name must contain alphabets");
+      inputt.next().show();
+      inputt.next().html("Name must contain alphabets");
       parentClass.addClass("form-val error");
       return false;
     } else {
       parentClass.removeClass("form-val error");
-      $("#fnameCheck").hide();
-      parentClass.addClass("form-val success");
-      return true;
-    }
-  }
-  function validateUsernameL() {
-    var regex = /^[a-zA-Z]{1,20}$/;
-    let usernameValue = $("#Lname").val();
-    let parentClass = $("#Lname").parent();
-    if (usernameValue.length == "") {
-      parentClass.removeClass("form-val success");
-      $("#lnameCheck").show();
-      parentClass.addClass("form-val error");
-      return false;
-    } else if (!regex.test(usernameValue)) {
-      parentClass.removeClass("form-val success");
-      $("#lnameCheck").show();
-      $("#lnameCheck").html("Name must contain alphabets");
-      parentClass.addClass("form-val error");
-      return false;
-    } else if (usernameValue.length < 1 || usernameValue.length > 10) {
-      parentClass.removeClass("form-val success");
-      $("#lnameCheck").show();
-      $("#lnameCheck").html("length of username must be between 1 and 10");
-      parentClass.addClass("form-val error");
-      return false;
-    } else {
-      parentClass.removeClass("form-val error");
-      $("#lnameCheck").hide();
+      inputt.next().hide();
       parentClass.addClass("form-val success");
       return true;
     }
@@ -261,31 +229,6 @@ $(document).ready(function () {
     }
     return radioChecked && checkboxChecked;
   }  
-  function validateEmail() {
-    let regexEmail =
-      /^([_\-\.0-9a-zA-Z]+)@([_\-\.0-9a-zA-Z]+)\.([a-zA-Z]){2,7}$/;
-    var emailValue = $("#inputEmail").val();
-    let parentClass = $("#inputEmail").parent();
-    if (emailValue === "") {
-      parentClass.removeClass("form-val success");
-      $("#emailCheck").show();
-      $("#emailCheck").html("Please enter the email");
-      parentClass.addClass("form-val error");
-      return false;
-    }
-    if (!regexEmail.test(emailValue)) {
-      parentClass.removeClass("form-val success");
-      $("#emailCheck").show();
-      $("#emailCheck").html("Enter the valid email.");
-      parentClass.addClass("form-val error");
-      return false;
-    } else {
-      parentClass.removeClass("form-val error");
-      $("#emailCheck").hide();
-      parentClass.addClass("form-val success");
-      return true;
-    }
-  }
   function validateFile() {
     const fileInput = $("#fileInput");
     // Get the file name and split it by the dot to get the file extension
@@ -305,10 +248,10 @@ $(document).ready(function () {
   }
   $("#formVal").submit(function (event) {
     event.preventDefault();
-    const isFnameValid = validateUsername();
-    const isLnameValid = validateUsernameL();
-    const isEmailValid = validateEmail();
-    const isPinValid = validatepin();
+    const isFnameValid = validateUsername(Fname);
+    const isLnameValid =  validateUsername(Lname);
+    const isEmailValid =  validateReg(emailReg,inputEmail);
+    const isPinValid =validateReg(pinReg,inputZip);
     const isFieldsEmpty = fieldEmpty(arr);
     const isRadio = validateCheck();
     const isFileValid = validateFile();
