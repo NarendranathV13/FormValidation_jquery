@@ -1,8 +1,8 @@
 $(document).ready(function () {
-  let storedData = localStorage.getItem('fullEntries');
+  let storedData = localStorage.getItem("fullEntries");
   if (storedData) {
-      // Display the stored data in the table
-      displayData(JSON.parse(storedData));
+    // Display the stored data in the table
+    displayData(JSON.parse(storedData));
   }
   var cities = [
     "Coimbatore",
@@ -40,7 +40,7 @@ $(document).ready(function () {
   const datepick = $("#datepick");
   const inputAddress = $("#inputAddress");
   const inputCity = $("#inputCity");
-  const exampleSelect = $("#exampleSelect");
+  const stateSelect = $("#exampleSelect");
   const inputZip = $("#inputZip");
   const decleration = $("#exampleFormControlTextarea1");
   const checkbox1 = $("#gridCheck");
@@ -51,7 +51,7 @@ $(document).ready(function () {
   });
   $("#qualification").keydown(function () {
     qualification();
-    console.log(genders)
+    console.log(genders);
   });
   $("#inputZip").keyup(function () {
     validatepin();
@@ -70,7 +70,7 @@ $(document).ready(function () {
   });
   const genders = () => {
     let selectedGender = $("input[name='gender']:checked").val();
-    console.log(selectedGender)
+    console.log(selectedGender);
     return selectedGender;
   };
   $(".genderRadio").on("click", genders);
@@ -82,7 +82,7 @@ $(document).ready(function () {
     datepick,
     inputAddress,
     inputCity,
-    exampleSelect,
+    stateSelect,
     inputZip,
     decleration,
     checkbox1,
@@ -91,7 +91,11 @@ $(document).ready(function () {
   ];
   function clearFormFields(values) {
     values.forEach((inp) => {
-      inp.val("");
+      if (inp.is(':checkbox') || inp.is(':radio')) {
+        inp.prop('checked', false);
+      } else {
+        inp.val("");
+      }
       let fieldColor = inp.parent();
       fieldColor.removeClass("form-val success");
       fieldColor.removeClass("form-val error");
@@ -213,37 +217,7 @@ $(document).ready(function () {
       return true;
     }
   }
-  function validateYOP() {
-    let yopValue = $("#datepick").val();
-    let parentClass = $("#datepick").parent();
-    if (yopValue === "") {
-      parentClass.removeClass("form-val success");
-      $("#yopCheck").show();
-      parentClass.addClass("form-val error");
-      return false;
-    } else {
-      parentClass.removeClass("form-val error");
-      $("#yopCheck").hide();
-      parentClass.addClass("form-val success");
-      return true;
-    }
-  }
-  function validateState() {
-    let selectedState = $("#exampleSelect").val();
-    let parentClass = $("#exampleSelect").parent();
-    if (!selectedState) {
-      parentClass.removeClass("form-val success");
-      $("#stateCheck").show();
-      parentClass.addClass("form-val error");
-      return false;
-    } else {
-      parentClass.removeClass("form-val error");
-      $("#stateCheck").hide();
-      parentClass.addClass("form-val success");
-      return true;
-    }
-  }
-  const arr = [inputAddress, inputCity, decleration];
+  const arr = [inputAddress, inputCity, decleration, datepick, stateSelect];
   function fieldEmpty(arr) {
     let count = 0;
     arr.forEach((input) => {
@@ -260,38 +234,33 @@ $(document).ready(function () {
         parentClass.addClass("form-val success");
       }
     });
-    if (count == 3) {
+    if (count == 5) {
       return false;
     } else {
       return true;
     }
   }
-  function validateRadio() {
-    let parentClass = $(".genderRadio").parent();
+  function validateCheck() {
+    let parentRadioClass = $(".genderRadio").parent();
     let radioChecked = $(".genderRadio").is(":checked");
+    let parentCheckboxClass = $("#gridCheck").parent();
+    let checkboxChecked = $("#gridCheck").prop("checked");
     if (!radioChecked) {
-      parentClass.addClass("form-val error");
+      parentRadioClass.addClass("form-val error");
       $("#genderCheck").show();
-      return false;
     } else {
-      parentClass.removeClass("form-val error");
-      parentClass.addClass("form-val success");
+      parentRadioClass.removeClass("form-val error");
+      parentRadioClass.addClass("form-val success");
       $("#genderCheck").hide();
-      let selectedGender = $("input[name='gender']:checked").val();
-      return selectedGender;
     }
-  }
-  function checkbox() {
-    let parentClass = $("#gridCheck").parent();
-    if ($("#gridCheck").prop("checked")) {
-      parentClass.addClass("form-val success");
-      return true;
+    if (checkboxChecked) {
+      parentCheckboxClass.addClass("form-val success");
     } else {
-      parentClass.removeClass("form-val success");
-      parentClass.addClass("form-val error");
-      return false;
+      parentCheckboxClass.removeClass("form-val success");
+      parentCheckboxClass.addClass("form-val error");
     }
-  }
+    return radioChecked && checkboxChecked;
+  }  
   function validateEmail() {
     let regexEmail =
       /^([_\-\.0-9a-zA-Z]+)@([_\-\.0-9a-zA-Z]+)\.([a-zA-Z]){2,7}$/;
@@ -340,41 +309,43 @@ $(document).ready(function () {
     const isLnameValid = validateUsernameL();
     const isEmailValid = validateEmail();
     const isPinValid = validatepin();
-    const isStateValid = validateState();
     const isQualificationValid = qualification();
-    const isYopValid = validateYOP();
-    const isCheckboxChecked = checkbox();
     const isFieldsEmpty = fieldEmpty(arr);
-    const isRadio= validateRadio();
+    const isRadio = validateCheck();
     const isFileValid = validateFile();
     if (
       !isFnameValid ||
       !isLnameValid ||
       !isEmailValid ||
       !isPinValid ||
-      !isStateValid ||
       !isQualificationValid ||
-      !isYopValid ||
       !isFileValid ||
-      !isCheckboxChecked ||
       !isFieldsEmpty ||
       !isRadio
     ) {
       return false;
-    }else{
-      console.log("else")
-     // Combine first name, last name, and age to create the full entry
-     const fullName = `${Fname.val().trim()} ${Lname.val().trim()}`;
-     const entry = { fullName, email:inputEmail.val(),gender:genders(),qual:qualifications.val()};
-     // Save data to local storage
-     saveData(entry);
-     // Clear the input fields
-     clearFormFields(values);
+    } else {
+      console.log("else");
+      // Combine first name, last name, and age to create the full entry
+      const fullName = `${Fname.val().trim()} ${Lname.val().trim()}`;
+      const entry = {
+        fullName,
+        email: inputEmail.val(),
+        gender: genders(),
+        qual: qualifications.val(),
+        city: inputCity.val(),
+        passed:new Date(datepick.val()).getFullYear()
+      };
+      console.log(entry.gender,"vvv")
+      // Save data to local storage
+      saveData(entry);
+      // Clear the input fields
+      clearFormFields(values);
       return true;
     }
   });
   function saveData(entry) {
-    let storedData = localStorage.getItem('fullEntries');
+    let storedData = localStorage.getItem("fullEntries");
     if (storedData) {
       // If data already exists, add the new entry to the array
       storedData = JSON.parse(storedData);
@@ -383,18 +354,32 @@ $(document).ready(function () {
       // If no data exists, create a new array with the entry
       storedData = [entry];
     }
-    localStorage.setItem('fullEntries', JSON.stringify(storedData));
+    localStorage.setItem("fullEntries", JSON.stringify(storedData));
     // Display the updated data in the table
     displayData(storedData);
   }
-// Function to display data in the table
-function displayData(data) {
-    const tableBody = $('#dataTable tbody');
+  // Function to display data in the table
+  function displayData(data) {
+    const tableBody = $("#dataTable tbody");
     tableBody.empty(); // Clear previous data
-
     // Loop through the data and create table rows
     data.forEach(function (entry) {
-        tableBody.append('<tr><td>' + entry.fullName + '</td><td>' + entry.email + '</td></tr>' + entry.gender+'</td></tr>'+entry.qual+'</td></tr>');
+      tableBody.append(
+        "<tr><td>" +
+        entry.fullName +
+        "</td><td>" +
+        entry.email +
+        "</td><td>" +
+        entry.gender +
+        "</td><td>" +
+        entry.qual +
+        "</td><td>"+
+        entry.passed+
+        "</td><td>"+
+        entry.city+
+        "</td></tr>"
+
+      );
     });
-}
+  }
 });
