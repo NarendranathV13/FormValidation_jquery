@@ -104,6 +104,25 @@ $(document).ready(function () {
   radios.on("click", function(){
     rmvErr($("#genderCheck"),radios);
   });
+  $("#edit").on("click", function() {
+    editCell();
+    changeModalTitle("Form details (Editable)","red");
+  });
+  $("#saveChange").on("click", function() {
+    saveChanges();
+    changeModalTitle("Form Details","green");
+  });
+function changeModalTitle(title,bg) {
+  $(".modal-title").text(title);
+  if(bg=="red"){
+    $(".modal-title").removeClass("bg-success rounded-2 px-2");
+    $(".modal-title").addClass("bg-warning rounded-2 px-2");
+  }
+  else if(bg=="green"){
+    $(".modal-title").removeClass("bg-warning rounded-2 px-2");
+    $(".modal-title").addClass("bg-success rounded-2 px-2");
+  }
+}
   const values = [
     Fname,
     Lname,
@@ -275,9 +294,9 @@ $(document).ready(function () {
         gender: genders(),
         qual: qualifications.val(),
         city: inputCity.val(),
-        passed:new Date(datepick.val()).getFullYear()
+        passed:new Date(datepick.val()).getFullYear(),
+        state: stateSelect.val()
       };
-      console.log(entry.gender,"vvv")
       // Save data to local storage
       saveData(entry);
       // Clear the input fields
@@ -318,9 +337,38 @@ $(document).ready(function () {
         entry.passed+
         "</td><td>"+
         entry.city+
-        "</td></tr>"
+        "</td><td>"+
+        entry.state+
+        "</td><tr>"
 
       );
     });
   }
+  //edit table
+  function editCell(){
+  $("#dataTable td").on("click", function() {
+     // Check if the cell already contains an input field
+     if ($(this).find("input").length === 0) {
+      // Store the current cell's content
+      var currentValue = $(this).text().trim();
+      // Replace the cell content with an editable input field
+      $(this).html("<input type='text' value='" + currentValue + "' />");
+      $(this).find("input").focus();
+      // Save the edited value when Enter key is pressed or focus is out
+      $(this).find("input").on("keydown blur", function(event) {
+        // Check if the event is a keydown event and the key name is not "Enter" 
+        if (event.type === "keydown" && event.key !== "Enter") {
+          return;
+        }
+        // Get the new value from the input field
+        var editedValue = $(this).val();
+        $(this).parent().html(editedValue);
+      });
+    }
+    return false;
+  });
+}
+function saveChanges() {
+  $("#dataTable td").off("click");
+}
 });
