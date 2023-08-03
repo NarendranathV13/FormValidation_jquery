@@ -1,17 +1,20 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Form</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <link rel="stylesheet" href="css/style.css">
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="container">
         <div class="form1">
             <div class="row">
@@ -19,120 +22,139 @@
                     <h2 class="text-center mb-5 ">Application</h2>
                 </div>
             </div>
-            <form class="row g-3">
+            <form id="formVal" class="row g-3">
                 <div class="col-md-6">
                     <div class="form-val">
-                    <label for="Fname" class="form-label">First Name</label>
-                    <input type="text" title="Enter your First Name" class="form-control names" id="Fname">
-                    <p id="fnameCheck" style="color:rgb(197, 34, 34)">Please Enter the First name</p>
+                        <label for="Fname" class="form-label">First Name</label>
+                        <input type="text" title="Enter your First Name" class="form-control names" id="Fname">
+                        <p id="fnameCheck" style="color:rgb(197, 34, 34)">Please Enter the First name</p>
+                    </div>
                 </div>
-            </div>
                 <div class="col-md-6">
                     <div class="form-val">
-                    <label for="Lname" class="form-label">Last Name</label>
-                    <input type="text" title="Enter your Last Name" class="form-control names" id="Lname">
-                    <p id="lnameCheck" style="color:rgb(197, 34, 34)">Please Enter the Last name</p>
+                        <label for="Lname" class="form-label">Last Name</label>
+                        <input type="text" title="Enter your Last Name" class="form-control names" id="Lname">
+                        <p id="lnameCheck" style="color:rgb(197, 34, 34)">Please Enter the Last name</p>
+                    </div>
                 </div>
-            </div>
                 <div class="col-md-4">
                     <div class="form-val">
-                    <label for="inputEmail" class="form-label">Email</label>
-                    <input type="email" title="Enter your Email" class="form-control" id="inputEmail">
-                    <p id="emailCheck" style="color:rgb(197, 34, 34)">Please Enter the email</p>
+                        <label for="inputEmail" class="form-label">Email</label>
+                        <input type="email" title="Enter your Email" class="form-control" id="inputEmail">
+                        <p id="emailCheck" style="color:rgb(197, 34, 34)">Please Enter the email</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-4 p-3">
-                <div class="form-val">
-                    <label for="gender" class="px-sm-1">Gender</label><br>
-                    <input class="shadow-lg genderRadio" type="radio" name="gender" id="inlineRadio1" value="male">
-                    <label class="gend" for="inlineRadio1">Male</label>
-                    <input class="shadow-lg genderRadio" type="radio" name="gender" id="inlineRadio2" value="female">
-                    <label class="gend" for="inlineRadio1">Female</label>
-                    <p id="genderCheck" style="color:rgb(197, 34, 34)">Please select your gender</p>
+                <div class="col-lg-4 p-3">
+                    <div class="form-val">
+                        <h6 for="gender" class="px-sm-1">Gender</h6>
+                        <input class="shadow-lg genderRadio" type="radio" name="gender" id="inlineRadio1" value="male">
+                        <label class="gend" for="inlineRadio1">Male</label>
+                        <input class="shadow-lg genderRadio" type="radio" name="gender" id="inlineRadio2"
+                            value="female">
+                        <label class="gend" for="inlineRadio1">Female</label>
+                        <p id="genderCheck" style="color:rgb(197, 34, 34)">Please select your gender</p>
+                    </div>
                 </div>
-            </div>    
                 <div class="col-md-4">
                     <div class="form-val">
-                    <label for="Qualification" class="form-label">Qualification</label>
-                    <input type="text" title="Enter your Email" class="form-control" id="qualification">
-                    <p id="qualCheck" style="color:rgb(197, 34, 34)">Please Enter your qualification</p>
+                        <label for="qualification" class="form-label">Qualification</label>
+                        <input type="text" title="Enter your Email" class="form-control" id="qualification">
+                        <p id="qualCheck" style="color:rgb(197, 34, 34)">Please Enter your qualification</p>
+                    </div>
                 </div>
-            </div>
                 <div class="col-lg-6">
                     <div class="form-val">
-                    <label for="YOP" class="form-label">Passed out</label>
-                    <input id="datepick" title="Select your YOP" type="text" class="form-control" id="YOP">
-                    <p id="yopCheck" style="color:rgb(197, 34, 34)">Please Select the passed out year</p>
+                        <label for="datepick" class="form-label">Passed out</label>
+                        <input id="datepick" title="Select your YOP" type="text" class="form-control" id="YOP">
+                        <p id="yopCheck" style="color:rgb(197, 34, 34)">Please Select the passed out year</p>
+                    </div>
                 </div>
-            </div>
-                <div class="col-6">
+                <div class="col-lg-6">
                     <div class="form-val">
-                    <label for="inputAddress" class="form-label">Address</label>
-                    <input type="text" title="Enter your Address" class="form-control" id="inputAddress" placeholder="1234 Main St">
-                    <p id="ad1Check" style="color:rgb(197, 34, 34)">Please Enter the Address</p>
+                        <label for="inputAddress" class="form-label">Address</label>
+                        <input type="text" title="Enter your Address" class="form-control" id="inputAddress"
+                            placeholder="1234 Main St">
+                        <p id="ad1Check" style="color:rgb(197, 34, 34)">Please Enter the Address</p>
+                    </div>
                 </div>
-            </div>
                 <div class="col-lg-4">
                     <div class="form-val">
-                    <label for="inputCity" class="form-label">City</label>
-                    <input type="text" title="Enter your City" class="form-control" id="inputCity">
-                    <p id="cityCheck" style="color:rgb(197, 34, 34)">Please select the city</p>
+                        <label for="inputCity" class="form-label">City</label>
+                        <input type="text" title="Enter your City" class="form-control" id="inputCity">
+                        <p id="cityCheck" style="color:rgb(197, 34, 34)">Please select the city</p>
+                    </div>
                 </div>
-            </div>
                 <div class="col-lg-4">
                     <div class="form-val">
-                    <label for="exampleSelect" class="form-label">State</label>
-                    <select class="form-select" title="Select the State" id="exampleSelect">
-                        <option value="">select..</option>
-                        <option value="Tamil Nadu">Tamil Nadu</option>
-                        <option value="Kerala">Kerala</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                        <option value="Pondicherry">Pondicherry</option>
-                    </select>
-                    <p id="stateCheck" style="color:rgb(197, 34, 34)">Please select the state</p>
-                </div> 
-            </div>
+                        <label for="exampleSelect" class="form-label">State</label>
+                        <select class="form-select" title="Select the State" id="exampleSelect">
+                            <option value="">select..</option>
+                            <option value="Tamil Nadu">Tamil Nadu</option>
+                            <option value="Kerala">Kerala</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="Pondicherry">Pondicherry</option>
+                        </select>
+                        <p id="stateCheck" style="color:rgb(197, 34, 34)">Please select the state</p>
+                    </div>
+                </div>
                 <div class="col-lg-4">
                     <div class="form-val">
-                    <label for="inputZip" class="form-label">Zip</label>
-                    <input type="text" title="Enter your Postal code" class="form-control" id="inputZip">
-                    <p id="pinCheck" style="color:rgb(197, 34, 34)">Please Enter the Pin code</p>
+                        <label for="inputZip" class="form-label">Zip</label>
+                        <input type="text" title="Enter your Postal code" class="form-control" id="inputZip">
+                        <p id="pinCheck" style="color:rgb(197, 34, 34)">Please Enter the Pin code</p>
+                    </div>
                 </div>
-            </div>
                 <div class="col-12">
                     <div class="form-val mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Decleration</label>
-                        <textarea class="form-control" title="Type the Decleration" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <textarea class="form-control" title="Type the Decleration" id="exampleFormControlTextarea1"
+                            rows="3"></textarea>
                         <p id="declCheck" style="color:rgb(197, 34, 34)">Please Type the Decleration</p>
                     </div>
                 </div>
                 <div class="col-12 d-flex justify-content-center align-items-center">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="gridCheck">
-                      <label class="form-check-label" for="gridCheck" id="checkBox">
-                        I agree to the terms and conditions
-                      </label>
+                        <input class="form-check-input" type="checkbox" id="gridCheck">
+                        <label class="form-check-label" for="gridCheck" id="checkBox">
+                            I agree to the terms and conditions
+                        </label>
                     </div>
-                  </div>
-                  <div class="col-12 d-flex justify-content-center">
+                </div>
+                <div class="col-12 d-flex justify-content-center">
                     <div class="col-lg-12 d-flex justify-content-center prof">
-                      <div class="resu">
-                        <label class="d-flex justify-content-center" id="resume" title="Please Upload Profile">Upload Your Resume<br></label>
-                            <input type="file" class="d-flex justify-content-center" id="fileInput" accept=".doc, .docx, .pdf">
+                        <div class="resu">
+                            <label class="d-flex justify-content-center" id="resume"
+                                title="Please Upload Profile">Upload Your Resume<br></label>
+                            <input type="file" class="d-flex justify-content-center" id="fileInput"
+                                accept=".doc, .docx, .pdf">
                             <p id="fileCheck" style="color:rgb(197, 34, 34)">Please upload a DOC or PDF file.</p>
-                      </div>
+                        </div>
                     </div>
-                  </div>
-                  <div class="col-12 d-flex justify-content-center">
+                </div>
+                <div class="col-12 d-flex justify-content-center">
                     <button type="submit" id="submit" class="btn btn-primary">Submit</button>
                     <button type="button" id="clear" class="btn btn-warning ms-2">Clear</button>
-                  </div>
+                </div>
+            </form>
         </div>
-        </form>
-        </div>
+        <table id="dataTable" class="mt-3">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>gender</th>
+                    <th>qualification</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>    
     </div>
     <script src="script/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
 </html>

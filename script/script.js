@@ -1,4 +1,9 @@
 $(document).ready(function () {
+  let storedData = localStorage.getItem('fullEntries');
+  if (storedData) {
+      // Display the stored data in the table
+      displayData(JSON.parse(storedData));
+  }
   var cities = [
     "Coimbatore",
     "Madurai",
@@ -46,6 +51,7 @@ $(document).ready(function () {
   });
   $("#qualification").keydown(function () {
     qualification();
+    console.log(genders)
   });
   $("#inputZip").keyup(function () {
     validatepin();
@@ -62,6 +68,12 @@ $(document).ready(function () {
   $("#datepick").change(function () {
     validateYOP();
   });
+  const genders = () => {
+    let selectedGender = $("input[name='gender']:checked").val();
+    console.log(selectedGender)
+    return selectedGender;
+  };
+  $(".genderRadio").on("click", genders);
   const values = [
     Fname,
     Lname,
@@ -114,6 +126,7 @@ $(document).ready(function () {
       parentClass.removeClass("form-val error");
       $("#qualCheck").hide();
       parentClass.addClass("form-val success");
+      return true;
     }
   }
   function validatepin() {
@@ -141,6 +154,7 @@ $(document).ready(function () {
       parentClass.removeClass("form-val error");
       $("#pinCheck").hide();
       parentClass.addClass("form-val success");
+      return true;
     }
   }
   function validateUsername() {
@@ -152,10 +166,10 @@ $(document).ready(function () {
       $("#fnameCheck").show();
       parentClass.addClass("form-val error");
       return false;
-    } else if (usernameValue.length < 3 || usernameValue.length > 10) {
+    } else if (usernameValue.length < 3 || usernameValue.length > 20) {
       parentClass.removeClass("form-val success");
       $("#fnameCheck").show();
-      $("#fnameCheck").html("length of username must be between 3 and 10");
+      $("#fnameCheck").html("length of username must be between 3 and 20");
       parentClass.addClass("form-val error");
       return false;
     } else if (!regex.test(usernameValue)) {
@@ -168,6 +182,7 @@ $(document).ready(function () {
       parentClass.removeClass("form-val error");
       $("#fnameCheck").hide();
       parentClass.addClass("form-val success");
+      return true;
     }
   }
   function validateUsernameL() {
@@ -185,16 +200,17 @@ $(document).ready(function () {
       $("#lnameCheck").html("Name must contain alphabets");
       parentClass.addClass("form-val error");
       return false;
-    } else if (usernameValue.length < 3 || usernameValue.length > 10) {
+    } else if (usernameValue.length < 1 || usernameValue.length > 10) {
       parentClass.removeClass("form-val success");
       $("#lnameCheck").show();
-      $("#lnameCheck").html("length of username must be between 3 and 10");
+      $("#lnameCheck").html("length of username must be between 1 and 10");
       parentClass.addClass("form-val error");
       return false;
     } else {
       parentClass.removeClass("form-val error");
       $("#lnameCheck").hide();
       parentClass.addClass("form-val success");
+      return true;
     }
   }
   function validateYOP() {
@@ -261,7 +277,8 @@ $(document).ready(function () {
       parentClass.removeClass("form-val error");
       parentClass.addClass("form-val success");
       $("#genderCheck").hide();
-      return true;
+      let selectedGender = $("input[name='gender']:checked").val();
+      return selectedGender;
     }
   }
   function checkbox() {
@@ -297,6 +314,7 @@ $(document).ready(function () {
       parentClass.removeClass("form-val error");
       $("#emailCheck").hide();
       parentClass.addClass("form-val success");
+      return true;
     }
   }
   function validateFile() {
@@ -316,7 +334,7 @@ $(document).ready(function () {
       return true;
     }
   }
-  $("#submit").click(function (event) {
+  $("#formVal").submit(function (event) {
     event.preventDefault();
     const isFnameValid = validateUsername();
     const isLnameValid = validateUsernameL();
@@ -327,7 +345,7 @@ $(document).ready(function () {
     const isYopValid = validateYOP();
     const isCheckboxChecked = checkbox();
     const isFieldsEmpty = fieldEmpty(arr);
-    const isGenderValid = validateRadio();
+    const isRadio= validateRadio();
     const isFileValid = validateFile();
     if (
       !isFnameValid ||
@@ -340,9 +358,43 @@ $(document).ready(function () {
       !isFileValid ||
       !isCheckboxChecked ||
       !isFieldsEmpty ||
-      !isGenderValid
+      !isRadio
     ) {
       return false;
+    }else{
+      console.log("else")
+     // Combine first name, last name, and age to create the full entry
+     const fullName = `${Fname.val().trim()} ${Lname.val().trim()}`;
+     const entry = { fullName, email:inputEmail.val(),gender:genders(),qual:qualifications.val()};
+     // Save data to local storage
+     saveData(entry);
+     // Clear the input fields
+     clearFormFields(values);
+      return true;
     }
   });
+  function saveData(entry) {
+    let storedData = localStorage.getItem('fullEntries');
+    if (storedData) {
+      // If data already exists, add the new entry to the array
+      storedData = JSON.parse(storedData);
+      storedData.push(entry);
+    } else {
+      // If no data exists, create a new array with the entry
+      storedData = [entry];
+    }
+    localStorage.setItem('fullEntries', JSON.stringify(storedData));
+    // Display the updated data in the table
+    displayData(storedData);
+  }
+// Function to display data in the table
+function displayData(data) {
+    const tableBody = $('#dataTable tbody');
+    tableBody.empty(); // Clear previous data
+
+    // Loop through the data and create table rows
+    data.forEach(function (entry) {
+        tableBody.append('<tr><td>' + entry.fullName + '</td><td>' + entry.email + '</td></tr>' + entry.gender+'</td></tr>'+entry.qual+'</td></tr>');
+    });
+}
 });
