@@ -111,6 +111,7 @@ $(document).ready(function () {
   $("#saveChange").on("click", function() {
     saveChanges();
     changeModalTitle("Form Details","green");
+    updateLocalStorageData();
   });
 function changeModalTitle(title,bg) {
   $(".modal-title").text(title);
@@ -285,8 +286,6 @@ function changeModalTitle(title,bg) {
     ) {
       return false;
     } else {
-      console.log("else");
-      // Combine first name, last name, and age to create the full entry
       const fullName = `${Fname.val().trim()} ${Lname.val().trim()}`;
       const entry = {
         fullName,
@@ -297,9 +296,7 @@ function changeModalTitle(title,bg) {
         passed:new Date(datepick.val()).getFullYear(),
         state: stateSelect.val()
       };
-      // Save data to local storage
       saveData(entry);
-      // Clear the input fields
       clearFormFields(values);
       return true;
     }
@@ -311,18 +308,16 @@ function changeModalTitle(title,bg) {
       storedData = JSON.parse(storedData);
       storedData.push(entry);
     } else {
-      // If no data exists, create a new array with the entry
+      // If no data exists,create a new array 
       storedData = [entry];
     }
     localStorage.setItem("fullEntries", JSON.stringify(storedData));
     // Display the updated data in the table
     displayData(storedData);
   }
-  // Function to display data in the table
   function displayData(data) {
     const tableBody = $("#dataTable tbody");
     tableBody.empty(); // Clear previous data
-    // Loop through the data and create table rows
     data.forEach(function (entry) {
       tableBody.append(
         "<tr><td>" +
@@ -339,36 +334,51 @@ function changeModalTitle(title,bg) {
         entry.city+
         "</td><td>"+
         entry.state+
-        "</td><tr>"
-
+        "</td></tr>"
       );
     });
   }
-  //edit table
-  function editCell(){
-  $("#dataTable td").on("click", function() {
-     // Check if the cell already contains an input field
-     if ($(this).find("input").length === 0) {
-      // Store the current cell's content
-      var currentValue = $(this).text().trim();
-      // Replace the cell content with an editable input field
-      $(this).html("<input type='text' value='" + currentValue + "' />");
-      $(this).find("input").focus();
-      // Save the edited value when Enter key is pressed or focus is out
-      $(this).find("input").on("keydown blur", function(event) {
-        // Check if the event is a keydown event and the key name is not "Enter" 
-        if (event.type === "keydown" && event.key !== "Enter") {
-          return;
-        }
-        // Get the new value from the input field
-        var editedValue = $(this).val();
-        $(this).parent().html(editedValue);
-      });
-    }
-    return false;
+  // Edit table cell
+  function editCell() {
+    $("#dataTable td").on("click", function () {
+      // Check if the cell already contains an input field
+      if ($(this).find("input").length === 0) {
+        // Store the current cell's content
+        var currentValue = $(this).text().trim();
+        // Replace the cell content with an  input field
+        $(this).html("<input type='text' value='" + currentValue + "' />");
+        $(this).find("input").focus();
+      }
+    });
+  }
+function saveChanges() {
+  $("#dataTable td input").each(function () {
+    var editedValue = $(this).val();
+    $(this).parent().html(editedValue);
   });
 }
-function saveChanges() {
-  $("#dataTable td").off("click");
-}
+  // Function to update the local storage data
+  function updateLocalStorageData() {
+    const data = [];
+    const tableRows = document.querySelectorAll("#dataTable tbody tr");
+    tableRows.forEach((row) => {
+      const fullName = row.cells[0].textContent.trim();
+      const email = row.cells[1].textContent.trim();
+      const gender = row.cells[2].textContent.trim();
+      const qual = row.cells[3].textContent.trim();
+      const passed = row.cells[4].textContent.trim();
+      const city = row.cells[5].textContent.trim();
+      const state = row.cells[6].textContent.trim();
+      data.push({
+        fullName,
+        email,
+        gender,
+        qual,
+        passed,
+        city,
+        state,
+      });
+    });
+    localStorage.setItem("fullEntries", JSON.stringify(data));
+  }
 });
