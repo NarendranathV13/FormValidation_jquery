@@ -17,6 +17,17 @@ $(document).ready(function () {
   $("#inputCity").autocomplete({
     source: cities,
   });
+  var qualification1 = [
+    "Bachelor of Arts",
+    "Bachelor of Science",
+    "Bachelor of Commerce",
+    "Bachelor of Technology",
+    "Bachelor of Engineering",
+    "Bachelor of Computer Applications"
+  ];
+  $("#qualification").autocomplete({
+    source: qualification1,
+  });
   $("#datepick").datepicker({
     minDate: new Date(2018, 3, 1), // from 2018
     maxDate: new Date(2023, 3, 30), // to 2023
@@ -46,34 +57,51 @@ $(document).ready(function () {
   const checkbox1 = $("#gridCheck");
   const radios = $(".genderRadio");
   const files = $("#fileInput");
-  $("#Fname").keydown(function () {
+  function rmvErr(err,prnt){
+    err.hide();
+    prnt.parent().removeClass("form-val error")
+    prnt.parent().addClass("form-val success")
+  }
+  Fname.keyup(function () {
     validateUsername();
   });
-  $("#qualification").keydown(function () {
-    qualification();
-    console.log(genders);
+  qualifications.keydown(function () {
+    rmvErr($("#qualCheck"),qualifications);
   });
-  $("#inputZip").keyup(function () {
+  inputZip.keyup(function () {
     validatepin();
   });
-  $("#Lname").keyup(function () {
+  Lname.keyup(function () {
     validateUsernameL();
   });
-  $("#inputEmail").keyup(function () {
+  inputEmail.keyup(function () {
     validateEmail();
   });
-  $("#exampleSelect").change(function () {
-    validateState();
+  stateSelect.change(function () {
+    rmvErr($("#stateCheck"),stateSelect);
   });
-  $("#datepick").change(function () {
-    validateYOP();
+  datepick.change(function () {
+    rmvErr($("#yopCheck"),datepick);
   });
+  decleration.keydown(function(){
+    rmvErr($("#declCheck"),decleration)
+  });
+  inputCity.keydown(function(){
+    rmvErr($("#cityCheck"),inputCity);
+  });
+  inputAddress.keydown(function(){
+    rmvErr($("#ad1Check"),inputAddress);
+  });
+  checkbox1.change(function(){
+    rmvErr($("#dummy"),checkbox1);
+  })
   const genders = () => {
     let selectedGender = $("input[name='gender']:checked").val();
-    console.log(selectedGender);
     return selectedGender;
   };
-  $(".genderRadio").on("click", genders);
+  radios.on("click", function(){
+    rmvErr($("#genderCheck"),radios);
+  });
   const values = [
     Fname,
     Lname,
@@ -105,34 +133,6 @@ $(document).ready(function () {
   $("#clear").click(function () {
     clearFormFields(values);
   });
-  function qualification() {
-    var regex = /^[a-zA-Z]{1,20}$/;
-    let qualValue = $("#qualification").val();
-    let parentClass = $("#qualification").parent();
-    if (qualValue.length == "") {
-      parentClass.removeClass("form-val success");
-      $("#qualCheck").show();
-      parentClass.addClass("form-val error");
-      return false;
-    } else if (qualValue.length < 2 || qualValue.length > 10) {
-      parentClass.removeClass("form-val success");
-      $("#qualCheck").show();
-      $("#qualCheck").html("length of course must be between 2 and 10");
-      parentClass.addClass("form-val error");
-      return false;
-    } else if (!regex.test(qualValue)) {
-      parentClass.removeClass("form-val success");
-      $("#qualCheck").show();
-      $("#qualCheck").html("Course must contain alphabets only");
-      parentClass.addClass("form-val error");
-      return false;
-    } else {
-      parentClass.removeClass("form-val error");
-      $("#qualCheck").hide();
-      parentClass.addClass("form-val success");
-      return true;
-    }
-  }
   function validatepin() {
     var regexPostalCode = /^[1-9][0-9]{4,5}$/;
     let pinValue = $("#inputZip").val();
@@ -217,7 +217,7 @@ $(document).ready(function () {
       return true;
     }
   }
-  const arr = [inputAddress, inputCity, decleration, datepick, stateSelect];
+  const arr = [inputAddress, inputCity, decleration, datepick, stateSelect,qualifications];
   function fieldEmpty(arr) {
     let count = 0;
     arr.forEach((input) => {
@@ -234,7 +234,7 @@ $(document).ready(function () {
         parentClass.addClass("form-val success");
       }
     });
-    if (count == 5) {
+    if (count == 6) {
       return false;
     } else {
       return true;
@@ -309,7 +309,6 @@ $(document).ready(function () {
     const isLnameValid = validateUsernameL();
     const isEmailValid = validateEmail();
     const isPinValid = validatepin();
-    const isQualificationValid = qualification();
     const isFieldsEmpty = fieldEmpty(arr);
     const isRadio = validateCheck();
     const isFileValid = validateFile();
@@ -318,7 +317,6 @@ $(document).ready(function () {
       !isLnameValid ||
       !isEmailValid ||
       !isPinValid ||
-      !isQualificationValid ||
       !isFileValid ||
       !isFieldsEmpty ||
       !isRadio
