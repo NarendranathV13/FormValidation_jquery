@@ -163,6 +163,7 @@ function changeModalTitle(title,bg) {
       fieldColor.removeClass("form-val success");
       fieldColor.removeClass("form-val error");
       inp.siblings("p").hide();
+      $(".btclr").css("background-color", "rgb(255, 155, 41)");
     });
   }
   $("#clear").click(function () {
