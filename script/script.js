@@ -56,6 +56,7 @@ $(document).ready(function () {
   const decleration = $("#exampleFormControlTextarea1");
   const checkbox1 = $("#gridCheck");
   const radios = $(".genderRadio");
+  const fileInput = $("#fileInput");
   const files = $("#fileInput");
   const pinReg=/^[1-9][0-9]{4,5}$/;
   const emailReg=/^([_\-\.0-9a-zA-Z]+)@([_\-\.0-9a-zA-Z]+)\.([a-zA-Z]){2,7}$/;
@@ -97,6 +98,17 @@ $(document).ready(function () {
   checkbox1.change(function(){
     rmvErr($("#dummy"),checkbox1);
   })
+  let fileName = fileInput.val();
+  fileInput.change(function () {
+    fileName = fileInput.val();
+    if (fileName === "") {
+      $(".btclr").css("background-color", "rgb(247, 37, 37)");
+      $("#fileCheck").show();
+    } else {
+      $(".btclr").css("background-color", "rgb(104, 179, 34)");
+      $("#fileCheck").hide();
+    }
+  });
   const genders = () => {
     let selectedGender = $("input[name='gender']:checked").val();
     return selectedGender;
@@ -113,6 +125,7 @@ $(document).ready(function () {
     changeModalTitle("Form Details","green");
     updateLocalStorageData();
   });
+
 function changeModalTitle(title,bg) {
   $(".modal-title").text(title);
   if(bg=="red"){
@@ -250,18 +263,18 @@ function changeModalTitle(title,bg) {
     return radioChecked && checkboxChecked;
   }  
   function validateFile() {
-    const fileInput = $("#fileInput");
-    // Get the file name and split it by the dot to get the file extension
-    const fileName = fileInput.val();
+    let fileName = fileInput.val();
     const fileExtension = fileName.split(".").pop().toLowerCase();
     if (
       fileExtension !== "doc" &&
       fileExtension !== "docx" &&
       fileExtension !== "pdf"
     ) {
+      $(".btclr").css("background-color", "rgb(247, 37, 37)");
       $("#fileCheck").show();
       return false;
     } else {
+      $(".btclr").css("background-color","rgb(104, 179, 34)");
       $("#fileCheck").hide();
       return true;
     }
