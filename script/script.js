@@ -360,15 +360,14 @@ function saveChanges() {
   // Function to update the local storage data
   function updateLocalStorageData() {
     const data = [];
-    const tableRows = document.querySelectorAll("#dataTable tbody tr");
-    tableRows.forEach((row) => {
-      const fullName = row.cells[0].textContent.trim();
-      const email = row.cells[1].textContent.trim();
-      const gender = row.cells[2].textContent.trim();
-      const qual = row.cells[3].textContent.trim();
-      const passed = row.cells[4].textContent.trim();
-      const city = row.cells[5].textContent.trim();
-      const state = row.cells[6].textContent.trim();
+    $("#dataTable tbody tr").each(function () {
+      const fullName = $(this).find("td:eq(0)").text().trim();
+      const email = $(this).find("td:eq(1)").text().trim();
+      const gender = $(this).find("td:eq(2)").text().trim();
+      const qual = $(this).find("td:eq(3)").text().trim();
+      const passed = $(this).find("td:eq(4)").text().trim();
+      const city = $(this).find("td:eq(5)").text().trim();
+      const state = $(this).find("td:eq(6)").text().trim();
       data.push({
         fullName,
         email,
@@ -380,5 +379,5 @@ function saveChanges() {
       });
     });
     localStorage.setItem("fullEntries", JSON.stringify(data));
-  }
+  }  
 });
