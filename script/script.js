@@ -44,62 +44,39 @@ $(document).ready(function () {
   $("#emailCheck").hide();
   $("#genderCheck").hide();
   $("#fileCheck").hide();
-  const Fname = $("#Fname");
-  const Lname = $("#Lname");
-  const inputEmail = $("#inputEmail");
-  const qualifications = $("#qualification");
-  const datepick = $("#datepick");
-  const inputAddress = $("#inputAddress");
-  const inputCity = $("#inputCity");
-  const stateSelect = $("#exampleSelect");
-  const inputZip = $("#inputZip");
-  const decleration = $("#exampleFormControlTextarea1");
-  const checkbox1 = $("#gridCheck");
-  const radios = $(".genderRadio");
-  const fileInput = $("#fileInput");
-  const files = $("#fileInput");
-  const pinReg=/^[1-9][0-9]{4,5}$/;
-  const emailReg=/^([_\-\.0-9a-zA-Z]+)@([_\-\.0-9a-zA-Z]+)\.([a-zA-Z]){2,7}$/;
-  function rmvErr(err,prnt){
+  const Fname = $("#Fname"), 
+  Lname = $("#Lname"),
+  inputEmail = $("#inputEmail"),
+  qualifications = $("#qualification"),
+  datepick = $("#datepick"),
+  inputAddress = $("#inputAddress"),
+  inputCity = $("#inputCity"),
+  stateSelect = $("#exampleSelect"),
+  inputZip = $("#inputZip"),
+  decleration = $("#exampleFormControlTextarea1"),
+  checkbox1 = $("#gridCheck"),
+  radios = $(".genderRadio"),
+  fileInput = $("#fileInput"),
+  files = $("#fileInput"),
+  pinReg = /^[1-9][0-9]{4,5}$/,
+  emailReg = /^([_\-\.0-9a-zA-Z]+)@([_\-\.0-9a-zA-Z]+)\.([a-zA-Z]){2,7}$/;
+  const rmvErr=(err,prnt)=>{
     err.hide();
     prnt.parent().removeClass("form-val error")
-    prnt.parent().addClass("form-val success")
-  }
-  Fname.keyup(function () {
-    validateUsername(Fname);
-  });
-  qualifications.keydown(function () {
-    rmvErr($("#qualCheck"),qualifications);
-  });
-  inputZip.keyup(function () {
-    validateReg(pinReg,inputZip);
-  });
-  Lname.keyup(function () {
-    validateUsername(Lname);
-  });
-  inputEmail.keyup(function () {
-    validateReg(emailReg,inputEmail);
-  });
-  stateSelect.change(function () {
-    rmvErr($("#stateCheck"),stateSelect);
-  });
-  datepick.change(function () {
-    rmvErr($("#yopCheck"),datepick);
-  });
-  decleration.keydown(function(){
-    rmvErr($("#declCheck"),decleration)
-  });
-  inputCity.keydown(function(){
-    rmvErr($("#cityCheck"),inputCity);
-  });
-  inputAddress.keydown(function(){
-    rmvErr($("#ad1Check"),inputAddress);
-  });
-  checkbox1.change(function(){
-    rmvErr($("#dummy"),checkbox1);
-  })
+    prnt.parent().addClass("form-val success")};
+  Fname.keyup(()=>{validateUsername(Fname);});
+  qualifications.keydown(()=>{rmvErr($("#qualCheck"),qualifications);});
+  inputZip.keyup(()=>{validateReg(pinReg,inputZip);});
+  Lname.keyup(()=>{validateUsername(Lname);});
+  inputEmail.keyup(()=>{validateReg(emailReg,inputEmail);});
+  stateSelect.change(()=>{rmvErr($("#stateCheck"),stateSelect);});
+  datepick.change(()=>{rmvErr($("#yopCheck"),datepick);});
+  decleration.keydown(()=>{rmvErr($("#declCheck"),decleration)});
+  inputCity.keydown(()=>{rmvErr($("#cityCheck"),inputCity);});
+  inputAddress.keydown(()=>{rmvErr($("#ad1Check"),inputAddress);});
+  checkbox1.change(()=>{rmvErr($("#dummy"),checkbox1);});    
   let fileName = fileInput.val();
-  fileInput.change(function () {
+  fileInput.change(() => {
     fileName = fileInput.val();
     if (fileName === "") {
       $(".btclr").css("background-color", "rgb(247, 37, 37)");
@@ -113,30 +90,29 @@ $(document).ready(function () {
     let selectedGender = $("input[name='gender']:checked").val();
     return selectedGender;
   };
-  radios.on("click", function(){
-    rmvErr($("#genderCheck"),radios);
+  radios.on("click", () => {
+    rmvErr($("#genderCheck"), radios);
   });
-  $("#edit").on("click", function() {
+  $("#edit").on("click", () => {
     editCell();
     changeModalTitle("Form details (Editable)","red");
   });
-  $("#saveChange").on("click", function() {
+  $("#saveChange").on("click", () => {
     saveChanges();
     changeModalTitle("Form Details","green");
     updateLocalStorageData();
   });
-
-function changeModalTitle(title,bg) {
-  $(".modal-title").text(title);
-  if(bg=="red"){
-    $(".modal-title").removeClass("bg-success rounded-2 px-2");
-    $(".modal-title").addClass("bg-warning rounded-2 px-2");
-  }
-  else if(bg=="green"){
-    $(".modal-title").removeClass("bg-warning rounded-2 px-2");
-    $(".modal-title").addClass("bg-success rounded-2 px-2");
-  }
-}
+  const changeModalTitle = (title, bg) => {
+    $(".modal-title").text(title);
+    if(bg=="red"){
+      $(".modal-title").removeClass("bg-success rounded-2 px-2");
+      $(".modal-title").addClass("bg-warning rounded-2 px-2");
+    }
+    else if(bg=="green"){
+      $(".modal-title").removeClass("bg-warning rounded-2 px-2");
+      $(".modal-title").addClass("bg-success rounded-2 px-2");
+    }
+  };  
   const values = [
     Fname,
     Lname,
@@ -152,7 +128,7 @@ function changeModalTitle(title,bg) {
     radios,
     files,
   ];
-  function clearFormFields(values) {
+  const clearFormFields = (values) => {
     values.forEach((inp) => {
       if (inp.is(':checkbox') || inp.is(':radio')) {
         inp.prop('checked', false);
@@ -165,11 +141,11 @@ function changeModalTitle(title,bg) {
       inp.siblings("p").hide();
       $(".btclr").css("background-color", "rgb(255, 155, 41)");
     });
-  }
-  $("#clear").click(function () {
+  };
+  $("#clear").click(() => {
     clearFormFields(values);
   });
-  function validateReg(regx,inpID) {
+  const validateReg = (regx, inpID) => {
     var regexPostalCode = regx;
     let pinValue = inpID.val();
     let parentClass = inpID.parent();
@@ -178,7 +154,7 @@ function changeModalTitle(title,bg) {
       inpID.next().show();
       parentClass.addClass("form-val error");
       return false;
-    }else if (!regexPostalCode.test(pinValue)) {
+    } else if (!regexPostalCode.test(pinValue)) {
       parentClass.removeClass("form-val success");
       inpID.next().show();
       inpID.next().html("Invalid entry");
@@ -190,8 +166,8 @@ function changeModalTitle(title,bg) {
       parentClass.addClass("form-val success");
       return true;
     }
-  }
-  function validateUsername(inputt) {
+  };
+  const validateUsername = (inputt) => {
     var regex = /^[a-zA-Z]{1,20}$/;
     let usernameValue = inputt.val();
     let parentClass = inputt.parent();
@@ -218,9 +194,9 @@ function changeModalTitle(title,bg) {
       parentClass.addClass("form-val success");
       return true;
     }
-  }
+  };
   const arr = [inputAddress, inputCity, decleration, datepick, stateSelect,qualifications];
-  function fieldEmpty(arr) {
+  const fieldEmpty = (arr) => {
     let count = 0;
     arr.forEach((input) => {
       var elemValue = $(input).val();
@@ -236,13 +212,9 @@ function changeModalTitle(title,bg) {
         parentClass.addClass("form-val success");
       }
     });
-    if (count == 6) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-  function validateCheck() {
+    return count !== 6;
+  };
+  const validateCheck = () => {
     let parentRadioClass = $(".genderRadio").parent();
     let radioChecked = $(".genderRadio").is(":checked");
     let parentCheckboxClass = $("#gridCheck").parent();
@@ -262,8 +234,8 @@ function changeModalTitle(title,bg) {
       parentCheckboxClass.addClass("form-val error");
     }
     return radioChecked && checkboxChecked;
-  }  
-  function validateFile() {
+  };
+  const validateFile = () => {
     let fileName = fileInput.val();
     const fileExtension = fileName.split(".").pop().toLowerCase();
     if (
@@ -279,25 +251,17 @@ function changeModalTitle(title,bg) {
       $("#fileCheck").hide();
       return true;
     }
-  }
-  $("#formVal").submit(function (event) {
+  };  
+  $("#formVal").submit((event) => {
     event.preventDefault();
-    const isFnameValid = validateUsername(Fname);
-    const isLnameValid =  validateUsername(Lname);
-    const isEmailValid =  validateReg(emailReg,inputEmail);
-    const isPinValid =validateReg(pinReg,inputZip);
-    const isFieldsEmpty = fieldEmpty(arr);
-    const isRadio = validateCheck();
-    const isFileValid = validateFile();
-    if (
-      !isFnameValid ||
-      !isLnameValid ||
-      !isEmailValid ||
-      !isPinValid ||
-      !isFileValid ||
-      !isFieldsEmpty ||
-      !isRadio
-    ) {
+    const isFnameValid = validateUsername(Fname),
+      isLnameValid = validateUsername(Lname),
+      isEmailValid = validateReg(emailReg, inputEmail),
+      isPinValid = validateReg(pinReg, inputZip),
+      isFieldsEmpty = fieldEmpty(arr),
+      isRadio = validateCheck(),
+      isFileValid = validateFile();
+    if (!isFnameValid || !isLnameValid || !isEmailValid || !isPinValid || !isFileValid || !isFieldsEmpty || !isRadio) {
       return false;
     } else {
       const fullName = `${Fname.val().trim()} ${Lname.val().trim()}`;
@@ -307,15 +271,15 @@ function changeModalTitle(title,bg) {
         gender: genders(),
         qual: qualifications.val(),
         city: inputCity.val(),
-        passed:new Date(datepick.val()).getFullYear(),
+        passed: new Date(datepick.val()).getFullYear(),
         state: stateSelect.val()
       };
       saveData(entry);
       clearFormFields(values);
       return true;
     }
-  });
-  function saveData(entry) {
+  });  
+  const saveData = (entry) => {
     let storedData = localStorage.getItem("fullEntries");
     if (storedData) {
       // If data already exists, add the new entry to the array
@@ -328,7 +292,7 @@ function changeModalTitle(title,bg) {
     localStorage.setItem("fullEntries", JSON.stringify(storedData));
     // Display the updated data in the table
     displayData(storedData);
-  }
+  };  
   function displayData(data) {
     const tableBody = $("#dataTable tbody");
     tableBody.empty(); // Clear previous data
@@ -354,32 +318,32 @@ function changeModalTitle(title,bg) {
   }
   let isTableEditable = true;
   // Edit table cell
-  function editCell() {
-    if(isTableEditable){
-    $("#dataTable td").on("click", function () {
-      // Check if the cell already contains an input field
-      if ($(this).find("input").length === 0) {
-        // Store the current cell's content
-        var currentValue = $(this).text().trim();
-        // Replace the cell content with an  input field
-        $(this).html("<input type='text' value='" + currentValue + "' />");
-        $(this).find("input").focus();
-      }
+  const editCell = () => {
+    if (isTableEditable) {
+      $("#dataTable td").on("click", function () {
+        // Check if the cell already contains an input field
+        if ($(this).find("input").length === 0) {
+          // Store the current cell's content
+          var currentValue = $(this).text().trim();
+          // Replace the cell content with an input field
+          $(this).html("<input type='text' value='" + currentValue + "' />");
+          $(this).find("input").focus();
+        }
+      });
+    }
+  };  
+  const saveChanges = () => {
+    $("#dataTable td input").each(() => {
+      const editedValue = $(this).val();
+      $(this).parent().html(editedValue);
+      $("#dataTable td").off("click");
+      isTableEditable = false;
     });
-  }
-  }
-function saveChanges() {
-  $("#dataTable td input").each(function () {
-    var editedValue = $(this).val();
-    $(this).parent().html(editedValue);
-    $("#dataTable td").off("click");
-    isTableEditable = false;
-  });
-}
+  };
   // Function to update the local storage data
-  function updateLocalStorageData() {
+  const updateLocalStorageData = () => {
     const data = [];
-    $("#dataTable tbody tr").each(function () {
+    $("#dataTable tbody tr").each(function() {
       const fullName = $(this).find("td:eq(0)").text().trim();
       const email = $(this).find("td:eq(1)").text().trim();
       const gender = $(this).find("td:eq(2)").text().trim();
@@ -398,5 +362,5 @@ function saveChanges() {
       });
     });
     localStorage.setItem("fullEntries", JSON.stringify(data));
-  }  
+  };    
 });
