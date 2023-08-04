@@ -352,8 +352,10 @@ function changeModalTitle(title,bg) {
       );
     });
   }
+  let isTableEditable = true;
   // Edit table cell
   function editCell() {
+    if(isTableEditable){
     $("#dataTable td").on("click", function () {
       // Check if the cell already contains an input field
       if ($(this).find("input").length === 0) {
@@ -365,10 +367,13 @@ function changeModalTitle(title,bg) {
       }
     });
   }
+  }
 function saveChanges() {
   $("#dataTable td input").each(function () {
     var editedValue = $(this).val();
     $(this).parent().html(editedValue);
+    $("#dataTable td").off("click");
+    isTableEditable = false;
   });
 }
   // Function to update the local storage data
