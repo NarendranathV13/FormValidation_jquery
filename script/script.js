@@ -23,7 +23,7 @@ $(document).ready(function () {
     "Bachelor of Commerce",
     "Bachelor of Technology",
     "Bachelor of Engineering",
-    "Bachelor of Computer Applications"
+    "Bachelor of Computer Applications",
   ];
   $("#qualification").autocomplete({
     source: qualification1,
@@ -44,37 +44,60 @@ $(document).ready(function () {
   $("#emailCheck").hide();
   $("#genderCheck").hide();
   $("#fileCheck").hide();
-  const Fname = $("#Fname"), 
-  Lname = $("#Lname"),
-  inputEmail = $("#inputEmail"),
-  qualifications = $("#qualification"),
-  datepick = $("#datepick"),
-  inputAddress = $("#inputAddress"),
-  inputCity = $("#inputCity"),
-  stateSelect = $("#exampleSelect"),
-  inputZip = $("#inputZip"),
-  decleration = $("#exampleFormControlTextarea1"),
-  checkbox1 = $("#gridCheck"),
-  radios = $(".genderRadio"),
-  fileInput = $("#fileInput"),
-  files = $("#fileInput"),
-  pinReg = /^[1-9][0-9]{4,5}$/,
-  emailReg = /^([_\-\.0-9a-zA-Z]+)@([_\-\.0-9a-zA-Z]+)\.([a-zA-Z]){2,7}$/;
-  const rmvErr=(err,prnt)=>{
+  const Fname = $("#Fname"),
+    Lname = $("#Lname"),
+    inputEmail = $("#inputEmail"),
+    qualifications = $("#qualification"),
+    datepick = $("#datepick"),
+    inputAddress = $("#inputAddress"),
+    inputCity = $("#inputCity"),
+    stateSelect = $("#exampleSelect"),
+    inputZip = $("#inputZip"),
+    decleration = $("#exampleFormControlTextarea1"),
+    checkbox1 = $("#gridCheck"),
+    radios = $(".genderRadio"),
+    fileInput = $("#fileInput"),
+    files = $("#fileInput"),
+    pinReg = /^[1-9][0-9]{4,5}$/,
+    emailReg = /^([_\-\.0-9a-zA-Z]+)@([_\-\.0-9a-zA-Z]+)\.([a-zA-Z]){2,7}$/;
+  const rmvErr = (err, prnt) => {
     err.hide();
-    prnt.parent().removeClass("form-val error")
-    prnt.parent().addClass("form-val success")};
-  Fname.keyup(()=>{validateUsername(Fname);});
-  qualifications.keydown(()=>{rmvErr($("#qualCheck"),qualifications);});
-  inputZip.keyup(()=>{validateReg(pinReg,inputZip);});
-  Lname.keyup(()=>{validateUsername(Lname);});
-  inputEmail.keyup(()=>{validateReg(emailReg,inputEmail);});
-  stateSelect.change(()=>{rmvErr($("#stateCheck"),stateSelect);});
-  datepick.change(()=>{rmvErr($("#yopCheck"),datepick);});
-  decleration.keydown(()=>{rmvErr($("#declCheck"),decleration)});
-  inputCity.keydown(()=>{rmvErr($("#cityCheck"),inputCity);});
-  inputAddress.keydown(()=>{rmvErr($("#ad1Check"),inputAddress);});
-  checkbox1.change(()=>{rmvErr($("#dummy"),checkbox1);});    
+    prnt.parent().removeClass("form-val error");
+    prnt.parent().addClass("form-val success");
+  };
+  Fname.keyup(() => {
+    validateUsername(Fname);
+  });
+  qualifications.keydown(() => {
+    rmvErr($("#qualCheck"), qualifications);
+  });
+  inputZip.keyup(() => {
+    validateReg(pinReg, inputZip);
+  });
+  Lname.keyup(() => {
+    validateUsername(Lname);
+  });
+  inputEmail.keyup(() => {
+    validateReg(emailReg, inputEmail);
+  });
+  stateSelect.change(() => {
+    rmvErr($("#stateCheck"), stateSelect);
+  });
+  datepick.change(() => {
+    rmvErr($("#yopCheck"), datepick);
+  });
+  decleration.keydown(() => {
+    rmvErr($("#declCheck"), decleration);
+  });
+  inputCity.keydown(() => {
+    rmvErr($("#cityCheck"), inputCity);
+  });
+  inputAddress.keydown(() => {
+    rmvErr($("#ad1Check"), inputAddress);
+  });
+  checkbox1.change(() => {
+    rmvErr($("#dummy"), checkbox1);
+  });
   let fileName = fileInput.val();
   fileInput.change(() => {
     fileName = fileInput.val();
@@ -94,25 +117,28 @@ $(document).ready(function () {
     rmvErr($("#genderCheck"), radios);
   });
   $("#edit").on("click", () => {
-    editCell();
-    changeModalTitle("Form details (Editable)","red");
+    $("#dataTable td").off("click"); // Remove previous event handlers
+    isTableEditable = true; // Set the table to be editable
+    editCell(); // Attach new event handlers
+    changeModalTitle("Form details (Editable)", "red");
   });
   $("#saveChange").on("click", () => {
     saveChanges();
-    changeModalTitle("Form Details","green");
+    isTableEditable = false; // Set the table to not be editable
+    $("#dataTable td").off("click"); // Remove event handlers
+    changeModalTitle("Form Details", "green");
     updateLocalStorageData();
   });
   const changeModalTitle = (title, bg) => {
     $(".modal-title").text(title);
-    if(bg=="red"){
+    if (bg == "red") {
       $(".modal-title").removeClass("bg-success rounded-2 px-2");
       $(".modal-title").addClass("bg-warning rounded-2 px-2");
-    }
-    else if(bg=="green"){
+    } else if (bg == "green") {
       $(".modal-title").removeClass("bg-warning rounded-2 px-2");
       $(".modal-title").addClass("bg-success rounded-2 px-2");
     }
-  };  
+  };
   const values = [
     Fname,
     Lname,
@@ -130,8 +156,8 @@ $(document).ready(function () {
   ];
   const clearFormFields = (values) => {
     values.forEach((inp) => {
-      if (inp.is(':checkbox') || inp.is(':radio')) {
-        inp.prop('checked', false);
+      if (inp.is(":checkbox") || inp.is(":radio")) {
+        inp.prop("checked", false);
       } else {
         inp.val("");
       }
@@ -195,7 +221,14 @@ $(document).ready(function () {
       return true;
     }
   };
-  const arr = [inputAddress, inputCity, decleration, datepick, stateSelect,qualifications];
+  const arr = [
+    inputAddress,
+    inputCity,
+    decleration,
+    datepick,
+    stateSelect,
+    qualifications,
+  ];
   const fieldEmpty = (arr) => {
     let count = 0;
     arr.forEach((input) => {
@@ -247,11 +280,11 @@ $(document).ready(function () {
       $("#fileCheck").show();
       return false;
     } else {
-      $(".btclr").css("background-color","rgb(104, 179, 34)");
+      $(".btclr").css("background-color", "rgb(104, 179, 34)");
       $("#fileCheck").hide();
       return true;
     }
-  };  
+  };
   $("#formVal").submit((event) => {
     event.preventDefault();
     const isFnameValid = validateUsername(Fname),
@@ -261,7 +294,15 @@ $(document).ready(function () {
       isFieldsEmpty = fieldEmpty(arr),
       isRadio = validateCheck(),
       isFileValid = validateFile();
-    if (!isFnameValid || !isLnameValid || !isEmailValid || !isPinValid || !isFileValid || !isFieldsEmpty || !isRadio) {
+    if (
+      !isFnameValid ||
+      !isLnameValid ||
+      !isEmailValid ||
+      !isPinValid ||
+      !isFileValid ||
+      !isFieldsEmpty ||
+      !isRadio
+    ) {
       return false;
     } else {
       const fullName = `${Fname.val().trim()} ${Lname.val().trim()}`;
@@ -272,13 +313,13 @@ $(document).ready(function () {
         qual: qualifications.val(),
         city: inputCity.val(),
         passed: new Date(datepick.val()).getFullYear(),
-        state: stateSelect.val()
+        state: stateSelect.val(),
       };
       saveData(entry);
       clearFormFields(values);
       return true;
     }
-  });  
+  });
   const saveData = (entry) => {
     let storedData = localStorage.getItem("fullEntries");
     if (storedData) {
@@ -286,33 +327,33 @@ $(document).ready(function () {
       storedData = JSON.parse(storedData);
       storedData.push(entry);
     } else {
-      // If no data exists,create a new array 
+      // If no data exists,create a new array
       storedData = [entry];
     }
     localStorage.setItem("fullEntries", JSON.stringify(storedData));
     // Display the updated data in the table
     displayData(storedData);
-  };  
+  };
   function displayData(data) {
     const tableBody = $("#dataTable tbody");
     tableBody.empty(); // Clear previous data
     data.forEach(function (entry) {
       tableBody.append(
         "<tr><td>" +
-        entry.fullName +
-        "</td><td>" +
-        entry.email +
-        "</td><td>" +
-        entry.gender +
-        "</td><td>" +
-        entry.qual +
-        "</td><td>"+
-        entry.passed+
-        "</td><td>"+
-        entry.city+
-        "</td><td>"+
-        entry.state+
-        "</td></tr>"
+          entry.fullName +
+          "</td><td>" +
+          entry.email +
+          "</td><td>" +
+          entry.gender +
+          "</td><td>" +
+          entry.qual +
+          "</td><td>" +
+          entry.passed +
+          "</td><td>" +
+          entry.city +
+          "</td><td>" +
+          entry.state +
+          "</td></tr>"
       );
     });
   }
@@ -331,9 +372,9 @@ $(document).ready(function () {
         }
       });
     }
-  };  
+  };
   const saveChanges = () => {
-    $("#dataTable td input").each(() => {
+    $("#dataTable td input").each(function () {
       const editedValue = $(this).val();
       $(this).parent().html(editedValue);
       $("#dataTable td").off("click");
@@ -343,7 +384,7 @@ $(document).ready(function () {
   // Function to update the local storage data
   const updateLocalStorageData = () => {
     const data = [];
-    $("#dataTable tbody tr").each(function() {
+    $("#dataTable tbody tr").each(function () {
       const fullName = $(this).find("td:eq(0)").text().trim();
       const email = $(this).find("td:eq(1)").text().trim();
       const gender = $(this).find("td:eq(2)").text().trim();
@@ -362,5 +403,5 @@ $(document).ready(function () {
       });
     });
     localStorage.setItem("fullEntries", JSON.stringify(data));
-  };    
+  };
 });
